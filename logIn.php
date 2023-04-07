@@ -29,7 +29,7 @@
         {
             $_SESSION['username'] = $username;
 
-            header('location: new.php');
+            header('location: mainpage_IN.php');
         }
         else if($count == NULL){
             echo $message = "<label>Invalid Account</label>";
