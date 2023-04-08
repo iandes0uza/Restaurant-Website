@@ -1,8 +1,11 @@
 <!-- transport to mainpage in -->
 <!-- single page, store form data in  -->
 <?php
+    // ini_set("display_errors", "1");
+    // ini_set("display_startup_errors", "1");
+    // error_reporting(E_ALL);
     session_start();
-    $c = new PDO('mysql:host=localhost;dbname=restaurantdb', 'root', '');
+    $c = new PDO('mysql:host=localhost;dbname=restaurantDB', 'root', '');
     $message = "";
     if (isset($_POST['submit']))
     {
@@ -29,7 +32,7 @@
         {
             $_SESSION['username'] = $username;
 
-            header('location: mainpage_IN.php');
+            header('location: mainpage_admin.php');
         }
         else if($count == NULL){
             echo $message = "<label>Invalid Account</label>";

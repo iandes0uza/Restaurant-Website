@@ -20,6 +20,7 @@ create table employee(
 create table customer(
 	email varchar(50) not null,
 	paswrd varchar(20) not null,
+    credit decimal(10, 2) not null,
 	firstName varchar(50),
 	lastName varchar(50),
 	phoneNum char(10) not null,
@@ -59,21 +60,21 @@ create table schedule(
 	
 create table orders(
 	id integer not null,
-	orderTime time not null,
 	customerEmail varchar(50) not null,
 	total decimal(7, 2) not null,
-	tip decimal(5,2),
+	tip decimal(5,2) not null,
     dpID integer not null,
 	primary key (id, customerEmail),
 	foreign key (customerEmail) references customer(email) on delete cascade,
 	foreign key (dpID) references deliveryRole(id) on delete cascade);
 	
 create table purchaseHistory(
-	credit decimal(7, 2),
+	orderId integer not null,
 	customerEmail varchar(50),
 	paymentDate date not null,
 	paymentTime time not null,
 	primary key (customerEmail, paymentDate, paymentTime),
+    foreign key (orderId) references orders(id) on delete cascade,
 	foreign key (customerEmail) references customer(email) on delete cascade);
 
 create table menuItems(
@@ -82,6 +83,16 @@ create table menuItems(
 	resName varchar(50) not null,
 	primary key (name, resName),
 	foreign key (resName) references restaurant(name) on delete cascade);
+
+create table orderedItems(
+    name varchar(20) not null,
+    orderId integer not null,
+    restaurant varchar(50),
+    primary key (name, orderId, restaurant),
+    foreign key (name) references menuItems(name) on delete cascade,
+    foreign key (restaurant) references menuItems(resName) on delete cascade,
+    foreign key (orderId) references orders(id) on delete cascade);
+
 
 insert into restaurant values
     ('Ian''s Waffles', 'waffles.com', '789 Working Rd', 'Mississauga', 'L5M1N1'),
@@ -157,30 +168,35 @@ insert into schedule values
     ('28', '2023-02-01', '10:00:00', '18:00:00'), ('29', '2023-02-04', '09:00:00', '17:00:00');
     
 insert into customer values
-    ('zach@donovan.ca', 'nerd', 'Zach', null, 1234567890, null, null, null),
-    ('evan@wray.ca', 'nerd', 'Evan', 'Wray', 1234567890, null, null, null),
-    ('daniel@joseph.com', 'nerd', 'Daniel', 'Joseph', 1234567890, null, null, null),
-    ('ian@desouza.com', 'nerd', 'Ian', 'DeSouza', 1234567890, null, null, null),
-    ('vid@grujic.ca', 'nerd', 'Vid', null, 1234567890, null, null, null),
-    ('luka@gobovic.com', 'nerd', 'Luka', 'Gobovic', 1234567890, null, null, null),
-    ('sophia@lazzaro.com', 'nerd', 'Sophia', 'Lazzaro', 1234567890, null, null, null);
-
-insert into purchaseHistory values
-    ('35.62', 'zach@donovan.ca', '2023-02-01', '21:14:41'),
-    ('54.15', 'sophia@lazzaro.com', '2023-02-02', '17:16:48'),
-    ('14.13', 'evan@wray.ca', '2023-02-02', '08:31:43'),
-    ('134.72', 'luka@gobovic.com', '2023-02-03', '09:36:12'),
-    ('12.27', 'vid@grujic.ca', '2023-02-03', '12:45:23'),
-    ('61.72', 'daniel@joseph.com', '2023-02-03', '03:24:25');
+    ('zach@donovan.ca', 'nerd', 5.00, 'Zach', null, 1234567890, null, null, null),
+    ('evan@wray.ca', 'nerd', 5.00, 'Evan', 'Wray', 1234567890, null, null, null),
+    ('daniel@joseph.com', 5.00, 'nerd', 'Daniel', 'Joseph', 1234567890, null, null, null),
+    ('ian@desouza.com', 'nerd', 5.00, 'Ian', 'DeSouza', 1234567890, null, null, null),
+    ('vid@grujic.ca', 'nerd', 5.00, 'Vid', null, 1234567890, null, null, null),
+    ('luka@gobovic.com', 'nerd', 5.00, 'Luka', 'Gobovic', 1234567890, null, null, null),
+    ('sophia@lazzaro.com', 'nerd', 5.00, 'Sophia', 'Lazzaro', 1234567890, null, null, null);
 
 insert into orders values
-    ('1', '15:18:05', 'zach@donovan.ca', '300.97', null, '8'),
-    ('2', '14:46:35', 'sophia@lazzaro.com', '417.51', '7.65', '4'),
-    ('3', '13:36:06', 'evan@wray.ca', '472.46', '5.35', '4'),
-    ('4', '00:08:16', 'luka@gobovic.com', '651.18', '7.31', '6'),
-    ('5', '13:45:00', 'vid@grujic.ca', '730.14', null, '9'),
-    ('6', '22:21:10', 'daniel@joseph.com', '126.42', '1.19', '8'),
-    ('7', '05:00:10', 'ian@desouza.com', '177.96', '4.13', '7'); 
+    ('1', 'zach@donovan.ca', '300.97', '0', '8'),
+    ('2', 'sophia@lazzaro.com', '417.51', '7.65', '4'),
+    ('3', 'evan@wray.ca', '472.46', '5.35', '4'),
+    ('4', 'luka@gobovic.com', '651.18', '7.31', '6'),
+    ('5', 'vid@grujic.ca', '730.14', '0', '9'),
+    ('6', 'daniel@joseph.com', '126.42', '1.19', '8');
 
+insert into purchaseHistory values
+    ('1', 'zach@donovan.ca', '2023-02-01', '21:14:41'),
+    ('2', 'sophia@lazzaro.com', '2023-02-02', '17:16:48'),
+    ('3', 'evan@wray.ca', '2023-02-02', '08:31:43'),
+    ('4', 'luka@gobovic.com', '2023-02-03', '09:36:12'),
+    ('5', 'vid@grujic.ca', '2023-02-03', '12:45:23'),
+    ('6', 'daniel@joseph.com', '2023-02-03', '03:24:25');
 
+insert into orderedItems values
+    ('Nutella Waffles', '1', 'Ian''s Waffles'),
+    ('Angus Burger', '2', 'BurgerJoint'),
+    ('Hawaiian Pizza', '3', 'Pizza and Drugs'),
+    ('Hurricane', '4', 'Dairy King'),
+    ('Chicken Shawarma', '5', 'Osmows (but better)'),
+    ('Twinkies', '6', 'CampusTwoStop');
 	
