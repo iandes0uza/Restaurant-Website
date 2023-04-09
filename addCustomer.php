@@ -1,64 +1,32 @@
 <?php
-    ini_set("display_errors", "1");
-    ini_set("display_startup_errors", "1");
-    error_reporting(E_ALL);
     session_start();
-    $c = new PDO('mysql:host=localhost;dbname=restaurantDB', 'root', '');
-    $message = "";
-    if (isset($_POST['submit']))
-    {
-        $count = 0;
-        $email = $_POST['email'];
-        $fname = $_POST['fname'];
-        $pass = $_POST['pass'];
-        $passRetyped = $_POST['cpass'];
-        $num = $_POST['num'];
-        $city = $_POST['ccity'];
-        $street = $_POST['cstreet'];
-        $lname = $_POST['lname'];
-        $pc = $_POST['pc'];
-        $checkExisting = "SELECT COUNT(`email`) FROM `customer` WHERE `email` = '$email'";  
-        $addUser = "INSERT INTO customer (email, paswrd, credit, firstName, lastName, phoneNum, street, city, pc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        if(empty(trim($email)) || empty(trim($pass)) || empty(trim($passRetyped)) || empty(trim($num)))
-        {
-            echo "One of the required fields left blank";
-        }
-        else
-        {
-            $query = $c->prepare($checkExisting);
-            $query->execute();
-            $count = $query->fetchColumn();
-            if($count >= 1)
-            {
-                echo "Account with that user already exists.";
-            }
-            else
-            {
-                if ($pass == $passRetyped)
-                {
-                    $query = $c->prepare($addUser);
-                    $query->execute([$email, $pass, 5, $fname, $lname, $num, $street, $city, $pc]);
-                    echo "Account Created";
-                }
-                else
-                {
-                    echo "Passwords do not match";
-                }
-            }
-        }
-
-    }
-
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Add Customer</title>
+  <link href="mainpage_style.css" type="text/css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="user_switch.css">
+        <script>
+      function showError(message) {
+        alert(message);
+      }
+    </script>
     </head>
     <body>
-        <button onclick="window.location.href='mainpage_admin.php';">Back</button>
-        <div id="addCustomerForm">
-            <h1>Add Customer</h1>
+    <div class="menu_bar">
+        <a href="restaurant_admin.php">Home</a>
+        <a class="active" href="addCustomer.php">Add Customer</a>
+        <a href="trackOrder.php">View Orders</a>
+        <a href="viewSchedule.php">View Schedules</a>
+        <div class="menu_bar-right">
+            <a href="myAccount.php"><?php echo $_SESSION['fname']; ?>'s Account</a>
+            <a href="logout.php">Logout</a>
+        </div>
+    </div>
+    
+    <h1><center>Add Customer</center></h1>
+        <div id="form">
             <!--<h2>Please input specified user details</h2>-->
             <form action="" name="add_cus_form" method="post">
                 <label>Customer Email: </label>
@@ -86,10 +54,61 @@
                 <input type="text" id="pass" name="pass"><br></br>
 
                 <label>Confirm Password:</label>
-                <input type="text" id="cpass" name="cpass">
+                <input type="text" id="cpass" name="cpass"><br></br>
 
                 <input type="submit" id="btn" value="Login" name="submit"/>
             </form>
         </div>
     </body>
 </html>
+<?php
+    // ini_set("display_errors", "1");
+    // ini_set("display_startup_errors", "1");
+    // error_reporting(E_ALL);
+    $c = new PDO('mysql:host=localhost;dbname=restaurantDB', 'root', '');
+    $message = "";
+    if (isset($_POST['submit']))
+    {
+        $count = 0;
+        $email = $_POST['email'];
+        $fname = $_POST['fname'];
+        $pass = $_POST['pass'];
+        $passRetyped = $_POST['cpass'];
+        $num = $_POST['num'];
+        $city = $_POST['ccity'];
+        $street = $_POST['cstreet'];
+        $lname = $_POST['lname'];
+        $pc = $_POST['pc'];
+        $checkExisting = "SELECT COUNT(`email`) FROM `customer` WHERE `email` = '$email'";  
+        $addUser = "INSERT INTO customer (email, paswrd, credit, firstName, lastName, phoneNum, street, city, pc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        if(empty(trim($email)) || empty(trim($pass)) || empty(trim($passRetyped)) || empty(trim($num)))
+        {
+            echo "<script>showError('One of the required fields left blank.');</script>";
+        }
+        else
+        {
+            $query = $c->prepare($checkExisting);
+            $query->execute();
+            $count = $query->fetchColumn();
+            if($count >= 1)
+            {
+                echo "<script>showError('Account with that user already exists.');</script>";
+            }
+            else
+            {
+                if ($pass == $passRetyped)
+                {
+                    $query = $c->prepare($addUser);
+                    $query->execute([$email, $pass, 5, $fname, $lname, $num, $street, $city, $pc]);
+                    echo "<script>showError('Account Created Succesfully.');</script>";
+                }
+                else
+                {
+                    echo "<script>showError('Passwords do not match.');</script>";
+                }
+            }
+        }
+
+    }
+
+?>

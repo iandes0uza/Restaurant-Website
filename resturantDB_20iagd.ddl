@@ -47,6 +47,8 @@ create table serverRole(
 
 create table managementRole(
     id integer not null,
+    email varchar(50) not null,
+    paswrd varchar(20) not null,
     primary key (id),
     foreign key (id) references employee(id) on delete cascade);
 
@@ -95,7 +97,7 @@ create table orderedItems(
 
 
 insert into restaurant values
-    ('Ian''s Waffles', 'waffles.com', '789 Working Rd', 'Mississauga', 'L5M1N1'),
+    ('Ians Waffles', 'waffles.com', '789 Working Rd', 'Mississauga', 'L5M1N1'),
     ('BurgerJoint', 'burgerjoint.com', '456 Laundering St', 'Belleville', 'K8N2T8'),
     ('Pizza and Drugs', 'pizzaNdrugs.ca', '9381 Commerce Ct', 'Toronto', 'M5J1E6'),
     ('Dairy King', 'dairyking.com', '279 Hill St', 'Thunder Bay', 'P0T1K0'),
@@ -103,9 +105,9 @@ insert into restaurant values
     ('CampusTwoStop', 'campus2stop.ca', '29323 Side Road South', 'Barrie', 'L0L2N0');
 
 insert into menuItems values
-    ('Waffles', '11.99', 'Ian''s Waffles'), ('Nutella Waffles', '13.99', 'Ian''s Waffles'), ('Strawberry Waffles', '12.99', 'Ian''s Waffles'),
-    ('Milkshake', '5.35', 'Ian''s Waffles'), ('Maple Waffles', '12.49', 'Ian''s Waffles'), ('Vegan Waffles', '13.49', 'Ian''s Waffles'),
-    ('Orange Juice', '1.99', 'Ian''s Waffles'), ('Nestea', '1.99', 'Ian''s Waffles'),
+    ('Waffles', '11.99', 'Ians Waffles'), ('Nutella Waffles', '13.99', 'Ians Waffles'), ('Strawberry Waffles', '12.99', 'Ians Waffles'),
+    ('Milkshake', '5.35', 'Ians Waffles'), ('Maple Waffles', '12.49', 'Ians Waffles'), ('Vegan Waffles', '13.49', 'Ians Waffles'),
+    ('Orange Juice', '1.99', 'Ians Waffles'), ('Nestea', '1.99', 'Ians Waffles'),
     ('Angus Burger', '8.96', 'BurgerJoint'), ('Vegan Burger', '10.97', 'BurgerJoint'), ('Spicy Burger', '8.99', 'BurgerJoint'),
     ('Steak Burger', '9.69', 'BurgerJoint'), ('Cheese Burger', '8.35', 'BurgerJoint'), ('Tall Drink', '3.38', 'BurgerJoint'),
     ('Short Drink', '2.25', 'BurgerJoint'), ('Fries', '3.99', 'BurgerJoint'),
@@ -152,8 +154,8 @@ insert into serverRole values
     ('24'), ('27'), ('28');
 
 insert into managementRole values
-    ('17'), ('18'), ('19'), ('22'),
-    ('25'), ('26'), ('29');
+    ('17', 'a@r.com', 'nerd1'), ('18', 'ian2@desouza.com', 'nerd2'), ('19', 'ian3@desouza.com', 'nerd3'), ('22', 'ian4@desouza.com', 'nerd4'),
+    ('25', 'ian7@desouza.com', 'nerd7'), ('26', 'ian6@desouza.com', 'nerd6'), ('29', 'ian5@desouza.com', 'nerd5');
 
 insert into schedule values
     ('1', '2023-02-01', '10:00:00', '18:00:00'), ('2', '2023-02-01', '08:00:00', '16:00:00'), ('3', '2023-02-02', '10:00:00', '18:00:00'),
@@ -193,7 +195,7 @@ insert into purchaseHistory values
     ('6', 'daniel@joseph.com', '2023-02-03', '03:24:25');
 
 insert into orderedItems values
-    ('Nutella Waffles', '1', 'Ian''s Waffles'),
+    ('Nutella Waffles', '1', 'Ians Waffles'),
     ('Angus Burger', '2', 'BurgerJoint'),
     ('Hawaiian Pizza', '3', 'Pizza and Drugs'),
     ('Hurricane', '4', 'Dairy King'),

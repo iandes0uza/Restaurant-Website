@@ -1,0 +1,25 @@
+#emp {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    
+    margin: 30px auto;
+    width: 30%;
+  }
+  
+  #emp td, #emp th {
+    border: 1px solid #000000;
+    padding: 8px;
+  }
+  
+  #emp tr:nth-child(even){background-color: #ff92ce;}
+  #emp tr:nth-child(odd){background-color: #ffdaee;}
+  
+  #emp tr:hover {background-color: #ff68c5;}
+  
+  #emp th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #007000;
+    color: white;
+  }

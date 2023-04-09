@@ -1,0 +1,23 @@
+body 
+{
+    background-color: limegreen;
+}
+
+#form
+{
+    background-color: rgb(233, 73, 225);
+    width: 25%;
+    margin: 120px auto;
+    padding: 20px;
+    box-shadow: 10px 10px 5px rgb(255, 123, 222);
+    border-radius: 15px;
+}
+
+#btn
+{
+    color: white;
+    background-color: rgb(15, 88, 0);
+    padding: 15px;
+    font-size: large;
+    border-radius: 20px;
+}

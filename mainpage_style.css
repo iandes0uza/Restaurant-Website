@@ -1,0 +1,27 @@
+.menu_bar {
+    background-color: #000000;
+    overflow: hidden;
+}
+
+.menu_bar a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.menu_bar a:hover {
+  background-color: #00b418;
+  color: rgb(3, 97, 0);
+}
+
+.menu_bar a.active {
+  background-color: #00740a;
+  color: white;
+}
+
+.menu_bar-right {
+  float: right;
+}
